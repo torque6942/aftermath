@@ -582,4 +582,3 @@ $origin 0 0 24
 $base base
 $skin skin
 $frame frame1
-

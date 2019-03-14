@@ -604,106 +604,6 @@ void() W_FireGrenade =
 void() spike_touch;
 void() superspike_touch;
 
-.entity owner2;
-.float weapon2;
-
-void() rifle_rebound =
-{
-	self.velocity = normalize(self.velocity) * 1000;
-	self.movetype = MOVETYPE_FLYMISSILE;
-	self.angles = vectoangles(self.velocity);
-	self.think = SUB_Remove;
-	self.nextthink = self.ltime;
-
-	self.owner = world;
-};
-
-void() rifle_touch =
-{
-	local float rand;
-
-	if (other.solid == SOLID_TRIGGER)
-		return;	// trigger field, do nothing
-
-	if (pointcontents(self.origin) == CONTENT_SKY)
-	{
-		remove(self);
-		return;
-	}
-
-	// hit something that bleeds
-	if (other.takedamage)
-	{
-		spawn_touchblood (14);
-		self.owner = self.owner2;
-    		T_Damage (other, self, self.owner, 14);
-	}
-	else
-	{
-		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-		WriteByte (MSG_BROADCAST, TE_SUPERSPIKE);
-		WriteCoord (MSG_BROADCAST, self.origin_x);
-		WriteCoord (MSG_BROADCAST, self.origin_y);
-		WriteCoord (MSG_BROADCAST, self.origin_z);
-
-		if (self.aflag == 10)
-		{
-			remove(self);
-			return;
-		}
-
-		self.aflag = self.aflag + 1; // count bounces
-	}
-
-	// rebound
-	self.movetype = MOVETYPE_BOUNCE;
-	self.think = rifle_rebound;
-	self.ltime = self.nextthink;
-	self.nextthink = time + 0.1;
-};
-
-void(vector org, vector dir) launch_spike2 =
-{
-	newmis = spawn ();
-	newmis.owner = self;
-	newmis.movetype = MOVETYPE_FLYMISSILE;
-	newmis.solid = SOLID_BBOX;
-
-	newmis.angles = vectoangles(dir);
-
-	newmis.touch = rifle_touch;
-	newmis.classname = "spike";
-	newmis.think = SUB_Remove;
-	newmis.nextthink = time + 14;
-	setmodel (newmis, "progs/spike.mdl");
-	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);
-	setorigin (newmis, org);
-
-	newmis.velocity = dir * 1000;
-};
-
-void() W_FireRifle =
-{
-	local vector	dir;
-	local entity	old;
-
-	makevectors (self.v_angle);
-
-	if (self.ammo_nails < 3)
-	{
-		self.weapon = W_BestWeapon ();
-		W_SetCurrentAmmo ();
-		return;
-	}
-
-	self.owner2 = self.owner;
-
-	sound (self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
-	self.currentammo = self.ammo_nails = self.ammo_nails - 3;
-	dir = aim (self, 1000);
-	launch_spike2 (self.origin + '0 0 16' + v_right*6, dir);
-	self.punchangle_x = -2;
-};
 
 
 /*
@@ -1034,15 +934,9 @@ void() W_Attack =
 		W_FireSuperShotgun ();
 		self.attack_finished = time + 1.5;
 	}
-	else if (self.weapon == IT_NAILGUN && self.weapon2 == 0)
+	else if (self.weapon == IT_NAILGUN)
 	{
 		player_nail1 ();
-	}
-	else if (self.weapon == IT_NAILGUN && self.weapon2 == 1)
-	{
-		player_shot1 ();
-		W_FireRifle ();
-		self.attack_finished = time + 0.8; // you can change this to make the weapon fire faster
 	}
 	else if (self.weapon == IT_SUPER_NAILGUN)
 	{
@@ -1090,8 +984,8 @@ void() W_ChangeWeapon =
 		fl = IT_SHOTGUN;
 		if (self.ammo_shells < 1)
 			am = 1;
-		/* draw delay */
-		self.waitmin = time + 0.4;
+
+		self.waitmin = time + 0.4; // draw gun
 		sound (self, CHAN_WEAPON, "weapons/sgun_pump.wav", 1, ATTN_NORM);
 	}
 	else if (self.impulse == 3)
@@ -1103,18 +997,8 @@ void() W_ChangeWeapon =
 	else if (self.impulse == 4)
 	{
 		fl = IT_NAILGUN;
-		if (self.weapon2 == 0)
-		{
-			self.weapon2 = 1;
-			if (self.ammo_nails < 3)
-				am = 1;
-		}
-		else
-		{
-			self.weapon2 = 0;
-			if (self.ammo_nails < 1)
-				am = 1;
-		}
+		if (self.ammo_nails < 3)
+			am = 1;
 	}
 	else if (self.impulse == 5)
 	{
