@@ -26,7 +26,7 @@ void() SplatTouch =
 	self.attack_finished = time + 4 + (2*crandom());
 
 	self.think = SplatThink;
-	self.nextthink = time + 0.2;
+	self.nextthink = time + 0.3;
 };
 
 void(vector dir, vector org, entity own) ThrowBloodSplat =
@@ -50,11 +50,11 @@ void(vector dir, vector org, entity own) ThrowBloodSplat =
         splat.velocity_z = splat.velocity_z + 120 + 50*random(); //randomize z velocity (+ 120-170)
         splat.avelocity = '3000 1000 2000'; //spin fast!
         splat.touch = SplatTouch;
-	
+
         splat.nextthink = time + 2;
         splat.think = SUB_Remove;
 
         setmodel (splat, "progs/zom_gib.mdl");
-        setsize (splat, '0 0 0', '0 0 0');     
+        setsize (splat, '0 0 0', '0 0 0');
         setorigin (splat, org); //start splat at point of damage
 };

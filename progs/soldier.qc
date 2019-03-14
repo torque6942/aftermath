@@ -8,7 +8,7 @@ SOLDIER / PLAYER
 
 $cd id1/models/soldier3
 $origin 0 -6 24
-$base base		
+$base base
 $skin skin
 
 $frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8
@@ -145,7 +145,7 @@ void()	army_painc13=[	$painc13,	army_run1] {};
 void(entity attacker, float damage)	army_pain =
 {
 	local float r;
-	
+
 	if (self.pain_finished > time)
 		return;
 
@@ -153,6 +153,10 @@ void(entity attacker, float damage)	army_pain =
 
 	if (r < 0.2)
 	{
+		if (self.health < 10)
+		{
+				self.skin = 1;
+		}
 		self.pain_finished = time + 0.6;
 		army_pain1 ();
 		sound (self, CHAN_VOICE, "soldier/pain1.wav", 1, ATTN_NORM);
@@ -176,18 +180,18 @@ void() army_fire =
 {
 	local	vector	dir;
 	local	entity	en;
-	
+
 	ai_face();
-	
-	sound (self, CHAN_WEAPON, "soldier/sattck1.wav", 1, ATTN_NORM);	
+
+	sound (self, CHAN_WEAPON, "soldier/sattck1.wav", 1, ATTN_NORM);
 
 // fire somewhat behind the player, so a dodging player is harder to hit
 	en = self.enemy;
-	
+
 	dir = en.origin - en.velocity*0.2;
 	dir = normalize (dir - self.origin);
-	
-	FireBullets (4, dir, '0.1 0.1 0');
+
+	FireBullets (5, dir, '0.1 0.1 0');
 };
 
 
@@ -243,7 +247,7 @@ void() army_die =
 /*QUAKED monster_army (1 0 0) (-16 -16 -24) (16 16 40) Ambush
 */
 void() monster_army =
-{	
+{
 	if (deathmatch)
 	{
 		remove(self);
@@ -272,6 +276,7 @@ void() monster_army =
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 30;
+	self.skin = 0;
 
 	self.th_stand = army_stand1;
 	self.th_walk = army_walk1;
