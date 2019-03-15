@@ -144,11 +144,10 @@ self.effects = self.effects | EF_MUZZLEFLASH;};
 void()	player_shot2 =	[$shotatt2, player_shot3	] {self.weaponframe=2;};
 void()	player_shot3 =	[$shotatt2, player_shot4	] {self.weaponframe=6;};
 void()	player_shot4 =	[$shotatt2, player_shot5	] {self.weaponframe=6;};
-void()	player_shot5 =	[$shotatt2, player_shot6	] {self.weaponframe=6;};
-void()	player_shot6 =	[$shotatt3, player_shot7	] {self.weaponframe=3;};
-void()	player_shot7 =	[$shotatt4, player_shot8	] {self.weaponframe=4;};
-void()	player_shot8 =	[$shotatt5, player_shot9	] {self.weaponframe=5;};
-void()	player_shot9 =	[$shotatt6, player_run	] {self.weaponframe=6;};
+void()	player_shot5 =	[$shotatt3, player_shot6	] {self.weaponframe=3;};
+void()	player_shot6 =	[$shotatt4, player_shot7	] {self.weaponframe=4;};
+void()	player_shot7 =	[$shotatt5, player_shot8	] {self.weaponframe=5;};
+void()	player_shot8 =	[$shotatt6, player_run	] {self.weaponframe=6;};
 
 /* Draw animation */
 void()	player_draw1 =	[$shotatt1, player_draw2	] {self.weaponframe=6;};

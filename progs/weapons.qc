@@ -278,7 +278,7 @@ void() W_FireShotgun =
 
 	sound (self, CHAN_WEAPON, "weapons/sgun_fire1.wav", 1, ATTN_NORM);
 
-	self.punchangle_x = -4;
+	self.punchangle_x = -5;
 
 	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 	dir = aim (self, 100000);
@@ -933,7 +933,7 @@ void() W_Attack =
 	{
 		player_shot1 ();
 		W_FireShotgun ();
-		self.attack_finished = time + 1.1;
+		self.attack_finished = time + 1.0;
 	}
 	else if (self.weapon == IT_SUPER_SHOTGUN)
 	{
