@@ -229,8 +229,10 @@ void(float damage, vector dir) TraceAttack =
 		WriteCoord (MSG_BROADCAST, org_z);
 	}
 
+	/*
 	if(random() < 0.2)
         	ThrowBloodSplat(dir, trace_endpos, trace_ent);
+	*/
 };
 
 /*
@@ -717,12 +719,14 @@ local float rand;
 		WriteCoord (MSG_BROADCAST, self.origin_z);
 	}
 
+	/*
         if(random() < 0.3)
         {
                 self.angles_x = self.angles_x*-1;
                 makevectors(self.angles);
                 ThrowBloodSplat(v_forward, self.origin, other);
         }
+	*/
 
 	remove(self);
 
@@ -758,12 +762,14 @@ local float rand;
 		WriteCoord (MSG_BROADCAST, self.origin_z);
 	}
 
+	/*
         if(random() < 0.3)
         {
                 self.angles_x = self.angles_x*-1;
                 makevectors(self.angles);
                 ThrowBloodSplat(v_forward, self.origin, other);
         }
+	*/
 
 	remove(self);
 
