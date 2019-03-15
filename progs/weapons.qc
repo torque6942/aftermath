@@ -894,6 +894,7 @@ void()	player_axeb1;
 void()	player_axec1;
 void()	player_axed1;
 void()	player_shot1;
+void()	player_draw1;
 void()	player_nail1;
 void()	player_light1;
 void()	player_rocket1;
@@ -985,7 +986,8 @@ void() W_ChangeWeapon =
 		if (self.ammo_shells < 1)
 			am = 1;
 
-		self.waitmin = time + 0.4; // draw gun
+		player_draw1 ();
+		self.attack_finished = time + 0.8; // draw gun
 		sound (self, CHAN_WEAPON, "weapons/sgun_pump.wav", 1, ATTN_NORM);
 	}
 	else if (self.impulse == 3)
