@@ -9,3 +9,4 @@ This is just a simple Quake project I've started. I have some ideas of what I wa
 - Slowed rate of fire for shotgun
 - Increased damage for shotgun
 - Initialized delay for changing/drawing weapon
+- Added new gibbing sound (taken from Quake 2)
