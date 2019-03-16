@@ -26,7 +26,7 @@ void() W_Precache =
 	precache_sound ("weapons/shotgn2.wav");	// super shotgun
 
 	// Precache models
-	precache_model ("progs/zom_gib.mdl");
+//	precache_model ("progs/zom_gib.mdl");
 };
 
 float() crandom =
@@ -900,7 +900,8 @@ void()	player_axeb1;
 void()	player_axec1;
 void()	player_axed1;
 void()	player_shot1;
-void()	player_draw1;
+void()	player_sgun1;
+void()	player_shot2;
 void()	player_nail1;
 void()	player_light1;
 void()	player_rocket1;
@@ -931,7 +932,7 @@ void() W_Attack =
 	}
 	else if (self.weapon == IT_SHOTGUN)
 	{
-		player_shot1 ();
+		player_sgun1 ();
 		W_FireShotgun ();
 		self.attack_finished = time + 1.0;
 	}
@@ -989,12 +990,12 @@ void() W_ChangeWeapon =
 	else if (self.impulse == 2)
 	{
 		fl = IT_SHOTGUN;
+		player_shot2 ();
+		self.attack_finished = time + 0.8; // draw gun
+		sound (self, CHAN_WEAPON, "weapons/sgun_pump.wav", 1, ATTN_NORM);
 		if (self.ammo_shells < 1)
 			am = 1;
 
-		player_draw1 ();
-		self.attack_finished = time + 0.8; // draw gun
-		sound (self, CHAN_WEAPON, "weapons/sgun_pump.wav", 1, ATTN_NORM);
 	}
 	else if (self.impulse == 3)
 	{

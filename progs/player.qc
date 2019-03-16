@@ -138,25 +138,24 @@ void()	player_run =[	$rockrun1,	player_run	]
 	self.walkframe = self.walkframe + 1;
 };
 
-
-void()	player_shot1 =	[$shotatt1, player_shot2	] {self.weaponframe=1;
+void()  player_shot1 =  [$shotatt1, player_shot2        ] {self.weaponframe=1;
 self.effects = self.effects | EF_MUZZLEFLASH;};
-void()	player_shot2 =	[$shotatt2, player_shot3	] {self.weaponframe=2;};
-void()	player_shot3 =	[$shotatt2, player_shot4	] {self.weaponframe=6;};
-void()	player_shot4 =	[$shotatt2, player_shot5	] {self.weaponframe=6;};
-void()	player_shot5 =	[$shotatt3, player_shot6	] {self.weaponframe=3;};
-void()	player_shot6 =	[$shotatt4, player_shot7	] {self.weaponframe=4;};
-void()	player_shot7 =	[$shotatt5, player_shot8	] {self.weaponframe=5;};
-void()	player_shot8 =	[$shotatt6, player_run	] {self.weaponframe=6;};
+void()  player_shot2 =  [$shotatt2, player_shot3        ] {self.weaponframe=2;};
+void()  player_shot3 =  [$shotatt3, player_shot4        ] {self.weaponframe=3;};
+void()  player_shot4 =  [$shotatt4, player_shot5        ] {self.weaponframe=4;};
+void()  player_shot5 =  [$shotatt5, player_shot6        ] {self.weaponframe=5;};
+void()  player_shot6 =  [$shotatt6, player_run  ] {self.weaponframe=6;};
 
-/* Draw animation */
-void()	player_draw1 =	[$shotatt1, player_draw2	] {self.weaponframe=6;};
-void()	player_draw2 =	[$shotatt2, player_draw3	] {self.weaponframe=6;};
-void()	player_draw3 =	[$shotatt2, player_draw4	] {self.weaponframe=6;};
-void()	player_draw4 =	[$shotatt3, player_draw5	] {self.weaponframe=3;};
-void()	player_draw5 =	[$shotatt4, player_draw6	] {self.weaponframe=4;};
-void()	player_draw6 =	[$shotatt5, player_draw7	] {self.weaponframe=5;};
-void()	player_draw7 =	[$shotatt6, player_run	] {self.weaponframe=6;};
+/* Sgun fire */
+void()	player_sgun1 =	[$shotatt1, player_sgun2	] {self.weaponframe=1;
+self.effects = self.effects | EF_MUZZLEFLASH;};
+void()	player_sgun2 =	[$shotatt2, player_sgun3	] {self.weaponframe=2;};
+void()  player_sgun3 =  [$shotatt2, player_sgun4        ] {self.weaponframe=6;};
+void()  player_sgun4 =  [$shotatt2, player_sgun5        ] {self.weaponframe=6;};
+void()	player_sgun5 =	[$shotatt3, player_sgun6	] {self.weaponframe=3;};
+void()	player_sgun6 =	[$shotatt4, player_sgun7	] {self.weaponframe=4;};
+void()	player_sgun7 =	[$shotatt5, player_sgun8	] {self.weaponframe=5;};
+void()	player_sgun8 =	[$shotatt6, player_run	] {self.weaponframe=6;};
 
 void()	player_axe1 =	[$axatt1, player_axe2	] {self.weaponframe=1;};
 void()	player_axe2 =	[$axatt2, player_axe3	] {self.weaponframe=2;};

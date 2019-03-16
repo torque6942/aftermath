@@ -1364,6 +1364,8 @@ void() DropBackpack =
 	item.ammo_rockets = self.ammo_rockets;
 	item.ammo_cells = self.ammo_cells;
 
+	healh = health + 5;
+
 	item.velocity_z = 300;
 	item.velocity_x = -100 + (random() * 200);
 	item.velocity_y = -100 + (random() * 200);
