@@ -3,6 +3,9 @@ A little Quake project
 
 This is just a simple Quake project I've started. I have some ideas of what I want this to become but nothing big yet.
 
+0.02
+- Removed delay for changing/drawing weapon
+
 0.01
 - Added new model for shotgun
 - Added new sounds for shotgun (also changed the fire sound for Grunt)
