@@ -7,7 +7,6 @@ void(vector org, vector vel, float damage) SpawnBlood;
 void() SuperDamageSound;
 void() W_Attack2;
 
-
 // called by worldspawn
 void() W_Precache =
 {
@@ -16,6 +15,7 @@ void() W_Precache =
 	precache_sound ("weapons/sgun1.wav");
 //	precache_sound ("weapons/guncock.wav");	// player shotgun
 	precache_sound ("weapons/sgun_fire1.wav"); // New shotgun sound
+	precache_sound ("weapons/sgun_fire2.wav"); // Altfire shotgun sound
 	precache_sound ("weapons/sgun_pump.wav"); // Shotgun draw sound
 	precache_sound ("weapons/ric1.wav");	// ricochet (used in c code)
 	precache_sound ("weapons/ric2.wav");	// ricochet (used in c code)
@@ -286,21 +286,24 @@ void() W_FireShotgun =
 	FireBullets (8, dir, '0.04 0.04 0');
 };
 
-void() W_FireShotgun3 =
+void() W_AltFireShotgun =
 {
 	local vector dir;
 
-	sound (self, CHAN_WEAPON, "weapons/sgun_fire3.wav", 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "weapons/sgun_fire1.wav", 1, ATTN_NORM);
 
-	self.punchangle_x = -0.2;
+	self.punchangle_x = -5;
 
-	self.currentammo = self.ammo_shells = self.ammo_shells - 3;
 	dir = aim (self, 100000);
-	FireBullets (8, dir, '0.04 0.04 0');
-	FireBullets (8, dir, '0.04 0.04 0');
-	FireBullets (8, dir, '0.04 0.04 0');
+	FireBullets (8, dir, '0.07 0.07 0');
 }
 
+void() W_AltFireShotgunFinish =
+{
+	local vector dir;
+
+//	sound (self, CHAN_WEAPON, "weapons/sgun_pump.wav", 1, ATTN_NORM);
+}
 /*
 ================
 W_FireSuperShotgun
@@ -917,6 +920,8 @@ void()	player_axed1;
 void()	player_shot1;
 void()	player_sgun1;
 void()	player_sgun2;
+void()	player_sgunalt1;
+void()	player_sgunalt3;
 void()	player_shot2;
 void()	player_nail1;
 void()	player_light1;
@@ -927,8 +932,8 @@ void() W_Attack =
 
 	if (self.finger == 1)
 	{
-	    W_Attack2(); // use the other gun's trigger
-	    return;
+		W_Attack2(); // use the other gun's trigger
+		return;
 	}
 
 	local	float	r;
@@ -1009,74 +1014,33 @@ void() W_MoveFinger =
        }
 };
 
-void() W_Attack2 =
-{
+void() W_Attack2 = {
+	local   float   r;
 
-	if (self.finger == 1)
+        if (!W_CheckNoAmmo ())
+                return;
+
+        makevectors     (self.v_angle);                 // calculate forward angle for velocity
+        self.show_hostile = time + 1;   // wake monsters up	
+
+	if (self.weapon == IT_SHOTGUN)
 	{
-	    W_Attack2(); // use the other gun's trigger
-	    return;
-	}
-
-	local	float	r;
-
-	if (!W_CheckNoAmmo ())
-		return;
-
-	makevectors	(self.v_angle);			// calculate forward angle for velocity
-	self.show_hostile = time + 1;	// wake monsters up
-
-	if (self.weapon == IT_AXE)
-	{
-		sound (self, CHAN_WEAPON, "weapons/ax1.wav", 1, ATTN_NORM);
-		r = random();
-		if (r < 0.25)
-			player_axe1 ();
-		else if (r<0.5)
-			player_axeb1 ();
-		else if (r<0.75)
-			player_axec1 ();
+		if (self.ammo_shells > 2)
+		{	
+			player_sgunalt1 ();
+			self.attack_finished = time + 1.5;
+		}
+		else if (self.ammo_shells > 1)
+		{
+			player_sgunalt3 ();
+			self.attack_finished = time + 1.2;
+		}
 		else
-			player_axed1 ();
-		self.attack_finished = time + 0.5;
-	}
-	else if (self.weapon == IT_SHOTGUN)
-	{
-		player_sgun1 ();
-		W_FireShotgun3 ();
-		self.attack_finished = time + 1.9;
-	}
-	else if (self.weapon == IT_SUPER_SHOTGUN)
-	{
-		player_shot1 ();
-		W_FireSuperShotgun ();
-		self.attack_finished = time + 1.5;
-	}
-	else if (self.weapon == IT_NAILGUN)
-	{
-		player_nail1 ();
-	}
-	else if (self.weapon == IT_SUPER_NAILGUN)
-	{
-		player_nail1 ();
-	}
-	else if (self.weapon == IT_GRENADE_LAUNCHER)
-	{
-		player_rocket1();
-		W_FireGrenade();
-		self.attack_finished = time + 0.6;
-	}
-	else if (self.weapon == IT_ROCKET_LAUNCHER)
-	{
-		player_rocket1();
-		W_FireRocket();
-		self.attack_finished = time + 0.8;
-	}
-	else if (self.weapon == IT_LIGHTNING)
-	{
-		player_light1();
-		self.attack_finished = time + 0.1;
-		sound (self, CHAN_AUTO, "weapons/lstart.wav", 1, ATTN_NORM);
+		{
+			player_sgun1 ();
+			W_FireShotgun ();
+			self.attack_finished = time + 1.0;
+		}
 	}
 };
 
@@ -1190,13 +1154,6 @@ void() CheatCommand =
 	self.weapon = IT_ROCKET_LAUNCHER;
 	self.impulse = 0;
 	W_SetCurrentAmmo ();
-
-	if (self.impulse == 210)
-		self.finger = 0; // primary trigger
-	if (self.impulse == 211)
-		self.finger = 1; // secondary trigger
-	if (self.impulse == 212)
-		W_MoveFinger(); // toggle switch
 };
 
 /*
@@ -1388,9 +1345,14 @@ void() ImpulseCommands =
 		ServerflagsCommand ();
 	if (self.impulse == 12)
 		CycleWeaponReverseCommand ();
-
 	if (self.impulse == 255)
 		QuadCheat ();
+	if (self.impulse == 210)
+                self.finger = 0; // primary trigger
+        if (self.impulse == 211)
+                self.finger = 1; // secondary trigger
+        if (self.impulse == 212)
+                W_MoveFinger(); // toggle switch
 
 	self.impulse = 0;
 };
@@ -1406,8 +1368,8 @@ void() W_WeaponFrame =
 {
 	if (time < self.attack_finished)
 		return;
-
-	ImpulseCommands ();
+	if (self.impulse)
+		ImpulseCommands ();
 
 // check for attack
 	if (self.button0)
@@ -1415,6 +1377,12 @@ void() W_WeaponFrame =
 		SuperDamageSound ();
 		W_Attack ();
 	}
+	
+/*	if (self.button3)
+	{
+		SuperDamageSound ();
+		W_AltAttack ();
+	} */
 };
 
 /*

@@ -1229,7 +1229,7 @@ PLAYER BACKPACKS
 void() BackpackTouch =
 {
 	local string	s;
-	local	float	best, old, new;
+	local	float	best, old, new, heal;
 	local		entity	stemp;
 	local	float	acount;
 
@@ -1322,6 +1322,30 @@ void() BackpackTouch =
 		Deathmatch_Weapon (old, new);
 
 	W_SetCurrentAmmo ();
+
+	heal = rint((random() * 4) + 1);	// Give random amount of hp
+	if (self.health < 20)
+	{
+		heal = heal * 3;
+		self.health = self.health + heal;	// Add more if low on hp
+		s = ftos(heal);
+		sprint (other, "You got");
+                sprint (other, s);
+                sprint (other, " health\n");
+	}
+	else if (self.health < 70) 
+	{
+                self.health = self.health + heal;
+                s = ftos(heal);
+                sprint (other, "You got");
+                sprint (other, s);
+                sprint (other, " health\n");
+	}
+	else if (self.health > 70 && self.health < 100)	// Don't add to more than 100 hp
+	{
+		self.health = self.health + 1;
+		sprint (other, "You got 1 health\n");
+	}
 };
 
 /*

@@ -153,6 +153,7 @@ void		end_sys_globals;		// flag for structure dumping
 .float		button0;		// fire
 .float		button1;		// use
 .float		button2;		// jump
+//.float		button3;		// alt fire
 
 .float		impulse;		// weapon changes
 

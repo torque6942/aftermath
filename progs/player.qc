@@ -157,6 +157,23 @@ void()	player_sgun6 =	[$shotatt4, player_sgun7	] {self.weaponframe=4;};
 void()	player_sgun7 =	[$shotatt5, player_sgun8	] {self.weaponframe=5;};
 void()	player_sgun8 =	[$shotatt6, player_run	] {self.weaponframe=6;};
 
+/* Sgun alt fire */
+void()  player_sgunalt1 =  [$shotatt1, player_sgunalt2        ] {self.weaponframe=1;
+self.effects = self.effects | EF_MUZZLEFLASH; W_AltFireShotgun(); self.currentammo = self.ammo_shells = self.ammo_shells -1;};
+void()  player_sgunalt2 =  [$shotatt2, player_sgunalt3        ] {self.weaponframe=2;};
+void()  player_sgunalt3 =  [$shotatt1, player_sgunalt4        ] {self.weaponframe=1;
+self.effects = self.effects | EF_MUZZLEFLASH; W_AltFireShotgun(); self.currentammo = self.ammo_shells = self.ammo_shells -1;};
+void()  player_sgunalt4 =  [$shotatt2, player_sgunalt5        ] {self.weaponframe=2;};
+void()  player_sgunalt5 =  [$shotatt1, player_sgunalt6        ] {self.weaponframe=1;
+self.effects = self.effects | EF_MUZZLEFLASH; W_AltFireShotgun(); self.currentammo = self.ammo_shells = self.ammo_shells -1;};
+void()  player_sgunalt6 =  [$shotatt2, player_sgunalt7        ] {self.weaponframe=2;};
+void()  player_sgunalt7 =  [$shotatt2, player_sgunalt8        ] {self.weaponframe=6; W_AltFireShotgunFinish();};
+void()  player_sgunalt8 =  [$shotatt2, player_sgunalt9        ] {self.weaponframe=6;};
+void()  player_sgunalt9 =  [$shotatt3, player_sgunalt10        ] {self.weaponframe=3;};
+void()  player_sgunalt10 =  [$shotatt4, player_sgunalt11        ] {self.weaponframe=4;};
+void()  player_sgunalt11 =  [$shotatt5, player_sgunalt12        ] {self.weaponframe=5;};
+void()  player_sgunalt12 =  [$shotatt6, player_run  ] {self.weaponframe=6;};
+
 void()	player_axe1 =	[$axatt1, player_axe2	] {self.weaponframe=1;};
 void()	player_axe2 =	[$axatt2, player_axe3	] {self.weaponframe=2;};
 void()	player_axe3 =	[$axatt3, player_axe4	] {self.weaponframe=3;W_FireAxe();};
@@ -204,7 +221,7 @@ void() player_nail2   =[$nailatt2, player_nail1  ]
 		self.weaponframe = 1;
 	SuperDamageSound();
 	W_FireSpikes (-4);
-	self.attack_finished = time + 0.2;
+	self.attack_finished = time + 0.4;
 };
 
 //============================================================================
