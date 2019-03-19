@@ -5,6 +5,7 @@ void () player_run;
 void(entity bomb, entity attacker, float rad, entity ignore) T_RadiusDamage;
 void(vector org, vector vel, float damage) SpawnBlood;
 void() SuperDamageSound;
+void() W_Attack2;
 
 
 // called by worldspawn
@@ -285,6 +286,20 @@ void() W_FireShotgun =
 	FireBullets (8, dir, '0.04 0.04 0');
 };
 
+void() W_FireShotgun3 =
+{
+	local vector dir;
+
+	sound (self, CHAN_WEAPON, "weapons/sgun_fire3.wav", 1, ATTN_NORM);
+
+	self.punchangle_x = -0.2;
+
+	self.currentammo = self.ammo_shells = self.ammo_shells - 3;
+	dir = aim (self, 100000);
+	FireBullets (8, dir, '0.04 0.04 0');
+	FireBullets (8, dir, '0.04 0.04 0');
+	FireBullets (8, dir, '0.04 0.04 0');
+}
 
 /*
 ================
@@ -909,6 +924,13 @@ void()	player_rocket1;
 
 void() W_Attack =
 {
+
+	if (self.finger == 1)
+	{
+	    W_Attack2(); // use the other gun's trigger
+	    return;
+	}
+
 	local	float	r;
 
 	if (!W_CheckNoAmmo ())
@@ -936,6 +958,93 @@ void() W_Attack =
 		player_sgun1 ();
 		W_FireShotgun ();
 		self.attack_finished = time + 1.0;
+	}
+	else if (self.weapon == IT_SUPER_SHOTGUN)
+	{
+		player_shot1 ();
+		W_FireSuperShotgun ();
+		self.attack_finished = time + 1.5;
+	}
+	else if (self.weapon == IT_NAILGUN)
+	{
+		player_nail1 ();
+	}
+	else if (self.weapon == IT_SUPER_NAILGUN)
+	{
+		player_nail1 ();
+	}
+	else if (self.weapon == IT_GRENADE_LAUNCHER)
+	{
+		player_rocket1();
+		W_FireGrenade();
+		self.attack_finished = time + 0.6;
+	}
+	else if (self.weapon == IT_ROCKET_LAUNCHER)
+	{
+		player_rocket1();
+		W_FireRocket();
+		self.attack_finished = time + 0.8;
+	}
+	else if (self.weapon == IT_LIGHTNING)
+	{
+		player_light1();
+		self.attack_finished = time + 0.1;
+		sound (self, CHAN_AUTO, "weapons/lstart.wav", 1, ATTN_NORM);
+	}
+};
+
+void() W_MoveFinger =
+{
+       if (self.finger == 0)
+       {
+            self.finger = 1; // now put it on the other trigger
+            centerprint(self,"Secondary Mode\n"); // let him know
+            return;
+       }
+       if (self.finger == 1)
+       {
+            self.finger = 0; // ditto
+            centerprint(self,"Primary Mode\n");
+            return;
+       }
+};
+
+void() W_Attack2 =
+{
+
+	if (self.finger == 1)
+	{
+	    W_Attack2(); // use the other gun's trigger
+	    return;
+	}
+
+	local	float	r;
+
+	if (!W_CheckNoAmmo ())
+		return;
+
+	makevectors	(self.v_angle);			// calculate forward angle for velocity
+	self.show_hostile = time + 1;	// wake monsters up
+
+	if (self.weapon == IT_AXE)
+	{
+		sound (self, CHAN_WEAPON, "weapons/ax1.wav", 1, ATTN_NORM);
+		r = random();
+		if (r < 0.25)
+			player_axe1 ();
+		else if (r<0.5)
+			player_axeb1 ();
+		else if (r<0.75)
+			player_axec1 ();
+		else
+			player_axed1 ();
+		self.attack_finished = time + 0.5;
+	}
+	else if (self.weapon == IT_SHOTGUN)
+	{
+		player_sgun1 ();
+		W_FireShotgun3 ();
+		self.attack_finished = time + 1.9;
 	}
 	else if (self.weapon == IT_SUPER_SHOTGUN)
 	{
@@ -1081,6 +1190,13 @@ void() CheatCommand =
 	self.weapon = IT_ROCKET_LAUNCHER;
 	self.impulse = 0;
 	W_SetCurrentAmmo ();
+
+	if (self.impulse == 210)
+		self.finger = 0; // primary trigger
+	if (self.impulse == 211)
+		self.finger = 1; // secondary trigger
+	if (self.impulse == 212)
+		W_MoveFinger(); // toggle switch
 };
 
 /*
