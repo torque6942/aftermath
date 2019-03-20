@@ -167,7 +167,7 @@ void()  player_sgunalt4 =  [$shotatt2, player_sgunalt5        ] {self.weaponfram
 void()  player_sgunalt5 =  [$shotatt1, player_sgunalt6        ] {self.weaponframe=1;
 self.effects = self.effects | EF_MUZZLEFLASH; W_AltFireShotgun(); self.currentammo = self.ammo_shells = self.ammo_shells -1;};
 void()  player_sgunalt6 =  [$shotatt2, player_sgunalt7        ] {self.weaponframe=2;};
-void()  player_sgunalt7 =  [$shotatt2, player_sgunalt8        ] {self.weaponframe=6; W_AltFireShotgunFinish();};
+void()  player_sgunalt7 =  [$shotatt2, player_sgunalt8        ] {self.weaponframe=6;};
 void()  player_sgunalt8 =  [$shotatt2, player_sgunalt9        ] {self.weaponframe=6;};
 void()  player_sgunalt9 =  [$shotatt3, player_sgunalt10        ] {self.weaponframe=3;};
 void()  player_sgunalt10 =  [$shotatt4, player_sgunalt11        ] {self.weaponframe=4;};

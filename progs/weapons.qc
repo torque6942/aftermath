@@ -292,18 +292,12 @@ void() W_AltFireShotgun =
 
 	sound (self, CHAN_WEAPON, "weapons/sgun_fire1.wav", 1, ATTN_NORM);
 
-	self.punchangle_x = -5;
+	self.punchangle_x = self.punchangle_x - 4;
 
 	dir = aim (self, 100000);
 	FireBullets (8, dir, '0.07 0.07 0');
 }
 
-void() W_AltFireShotgunFinish =
-{
-	local vector dir;
-
-//	sound (self, CHAN_WEAPON, "weapons/sgun_pump.wav", 1, ATTN_NORM);
-}
 /*
 ================
 W_FireSuperShotgun

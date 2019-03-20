@@ -1345,7 +1345,8 @@ void() BackpackTouch =
 	}
 	else if (self.health >= 70 && self.health < 100)	// Don't add to more than 100 hp
 	{
-		self.health = self.health + 1;
+		heal = 1;
+		self.health = self.health + heal;
 
                 s = ftos(heal);
                 sprint (other, "You got ");
