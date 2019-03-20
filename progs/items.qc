@@ -1239,7 +1239,7 @@ void() BackpackTouch =
 		return;
 
 	acount = 0;
-	sprint (other, "You get ");
+	sprint (other, "You got ");
 
 	if (self.items)
 		if ((other.items & self.items) == 0)
@@ -1328,23 +1328,29 @@ void() BackpackTouch =
 	{
 		heal = heal * 3;
 		self.health = self.health + heal;	// Add more if low on hp
-		s = ftos(heal);
-		sprint (other, "You got");
+
+                s = ftos(heal);
+                sprint (other, "You got ");
                 sprint (other, s);
                 sprint (other, " health\n");
 	}
 	else if (self.health < 70) 
 	{
                 self.health = self.health + heal;
+
                 s = ftos(heal);
-                sprint (other, "You got");
+		sprint (other, "You got ");
                 sprint (other, s);
                 sprint (other, " health\n");
 	}
-	else if (self.health > 70 && self.health < 100)	// Don't add to more than 100 hp
+	else if (self.health >= 70 && self.health < 100)	// Don't add to more than 100 hp
 	{
 		self.health = self.health + 1;
-		sprint (other, "You got 1 health\n");
+
+                s = ftos(heal);
+                sprint (other, "You got ");
+                sprint (other, s);
+                sprint (other, " health\n");
 	}
 };
 
