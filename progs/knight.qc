@@ -9,7 +9,7 @@ KNIGHT
 $cd id1/models/knight
 $origin 0 0 24
 $base base
-$skin badass3
+$skin badass3 basass4
 
 $frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8 stand9
 
@@ -153,14 +153,20 @@ void(entity attacker, float damage)	knight_pain =
 	r = random();
 	
 	sound (self, CHAN_VOICE, "knight/khurt.wav", 1, ATTN_NORM);
-	
-/*
-	if ()
+	if (attacker.weapon != IT_GRENADE_LAUNCHER || attacker.weapon != IT_ROCKET_LAUNCHER || attacker.weapon != IT_LIGHTNING )
+		sound (self, CHAN_BODY, "knight/khit.wav", 1, ATTN_NORM);
+
+	self.skin = 0;
+
+	if (self.health < 38)
+		self.skin = 1;
+
+	if (damage >= 50 )
 	{
-		
-	}	
-*/
-	if (r < 0.85)
+		knight_painb1 ();
+		self.pain_finished = time + 1;
+	}
+	else if (r < 0.85)
 	{
 		knight_pain1 ();
 		self.pain_finished = time + 1;
@@ -170,7 +176,6 @@ void(entity attacker, float damage)	knight_pain =
 		knight_painb1 ();
 		self.pain_finished = time + 1;
 	}
-	
 };
 
 //===========================================================================
@@ -192,7 +197,7 @@ void()	knight_bow10	=[	$walk1,		knight_walk1	] {ai_turn();};
 
 void()	knight_die1	=[	$death1,	knight_die2	] {};
 void()	knight_die2	=[	$death2,	knight_die3	] {};
-void()	knight_die3	=[	$death3,	knight_die4	] {};
+void()	knight_die3	=[	$death3,	knight_die4	] {self.solid = SOLID_NOT;};
 void()	knight_die4	=[	$death4,	knight_die5	] {};
 void()	knight_die5	=[	$death5,	knight_die6	] {};
 void()	knight_die6	=[	$death6,	knight_die7	] {};
@@ -204,7 +209,7 @@ void()	knight_die10=[	$death10,	knight_die10] {};
 
 void()	knight_dieb1	=[	$deathb1,	knight_dieb2	] {};
 void()	knight_dieb2	=[	$deathb2,	knight_dieb3	] {};
-void()	knight_dieb3	=[	$deathb3,	knight_dieb4	] {};
+void()	knight_dieb3	=[	$deathb3,	knight_dieb4	] {self.solid = SOLID_NOT;};
 void()	knight_dieb4	=[	$deathb4,	knight_dieb5	] {};
 void()	knight_dieb5	=[	$deathb5,	knight_dieb6	] {};
 void()	knight_dieb6	=[	$deathb6,	knight_dieb7	] {};
@@ -229,7 +234,9 @@ void() knight_die =
 	}
 
 // regular death
-	sound (self, CHAN_VOICE, "knight/kdeath.wav", 1, ATTN_NORM);
+	sound (self, CHAN_VOICE, "knight/kdeath.wav", 1, ATTN_NORM);	
+	sound (self, CHAN_BODY, "knight/khit.wav", 1, ATTN_NORM);
+
 	if (random() < 0.5)
 		knight_die1 ();
 	else
@@ -254,6 +261,7 @@ void() monster_knight =
 	precache_sound ("knight/sword1.wav");
 	precache_sound ("knight/sword2.wav");
 	precache_sound ("knight/idle.wav");
+	precache_sound ("knight/khit.wav");	// impact sound
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
