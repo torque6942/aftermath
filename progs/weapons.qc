@@ -4,7 +4,10 @@ void (entity targ, entity inflictor, entity attacker, float damage) T_Damage;
 void () player_run;
 void(entity bomb, entity attacker, float rad, entity ignore) T_RadiusDamage;
 void(vector org, vector vel, float damage) SpawnBlood;
+<<<<<<< HEAD
 void(vector org, vector vel, float damage) SpawnSparks; // Added sparks to armored enemies
+=======
+>>>>>>> 26fcda99718c4a70d9cc4cafead1bfa4c6a06d2c
 void() SuperDamageSound;
 void() W_Attack2;
 
@@ -128,15 +131,7 @@ void(vector org, vector vel, float damage) SpawnBlood =
 {
 	particle (org, vel*0.1, 73, damage*2);
 };
-/*
-================
-SpawnSparks - when shooting armor
-================
-*/
-void(vector org, vector vel, float damage) SpawnSparks =
-{
-	particle (org, vel*0.1, 255, damage);
-};
+
 /*
 ================
 spawn_touchblood
@@ -227,15 +222,7 @@ void(float damage, vector dir) TraceAttack =
 
 	if (trace_ent.takedamage)
 	{
-		if (trace_ent.classname == "monster_knight" || trace_ent.classname == "monster_hknight")
-		{
-			SpawnSparks (org, vel*0.1, damage);
-			SpawnBlood (org, vel*0.2, damage);
-		}
-		else
-		{
-			SpawnBlood (org, vel*0.2, damage);
-		}
+		SpawnBlood (org, vel*0.2, damage);
 		AddMultiDamage (trace_ent, damage);
 	}
 	else
@@ -670,8 +657,8 @@ void() W_FireSuperSpikes =
 	local entity	old;
 
 	sound (self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
+	self.attack_finished = time + 0.2;
 	self.currentammo = self.ammo_nails = self.ammo_nails - 2;
-	self.attack_finished = time + 0.4;
 	dir = aim (self, 1000);
 	launch_spike (self.origin + '0 0 16', dir);
 	newmis.touch = superspike_touch;
@@ -687,13 +674,12 @@ void(float ox) W_FireSpikes =
 
 	makevectors (self.v_angle);
 
-/*
 	if (self.ammo_nails >= 2 && self.weapon == IT_SUPER_NAILGUN)
 	{
 		W_FireSuperSpikes ();
 		return;
 	}
-*/
+
 	if (self.ammo_nails < 1)
 	{
 		self.weapon = W_BestWeapon ();
@@ -705,7 +691,7 @@ void(float ox) W_FireSpikes =
 	self.attack_finished = time + 0.2;
 	self.currentammo = self.ammo_nails = self.ammo_nails - 1;
 	dir = aim (self, 1000);
-	launch_spike (self.origin + '0 0 16' + v_right*ox, dir);
+	launch_spike (self.origin + '0 0 16' + v_right*2, dir);
 
 	self.punchangle_x = -2;
 };
@@ -936,7 +922,6 @@ void()	player_sgunalt1;
 void()	player_sgunalt3;
 void()	player_shot2;
 void()	player_nail1;
-void()	player_snail1;
 void()	player_light1;
 void()	player_rocket1;
 
@@ -950,7 +935,6 @@ void() W_Attack =
 	}
 
 	local	float	r;
-	float firerate = time + 0.1;
 
 	if (!W_CheckNoAmmo ())
 		return;
@@ -990,7 +974,7 @@ void() W_Attack =
 	}
 	else if (self.weapon == IT_SUPER_NAILGUN)
 	{
-		player_snail1 ();
+		player_nail1 ();
 	}
 	else if (self.weapon == IT_GRENADE_LAUNCHER)
 	{
@@ -1090,7 +1074,7 @@ void() W_ChangeWeapon =
 	else if (self.impulse == 4)
 	{
 		fl = IT_NAILGUN;
-		if (self.ammo_nails < 0)
+		if (self.ammo_nails < 3)
 			am = 1;
 	}
 	else if (self.impulse == 5)

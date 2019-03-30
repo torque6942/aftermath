@@ -1,3 +1,4 @@
+
 void() bubble_bob;
 
 /*
@@ -206,8 +207,8 @@ void() player_nail1   =[$nailatt1, player_nail2  ]
 	if (self.weaponframe == 9)
 		self.weaponframe = 1;
 	SuperDamageSound();
-	W_FireSpikes (2);
-	self.attack_finished = time + 0.1;
+	W_FireSpikes (4);
+	self.attack_finished = time + 0.4;
 };
 void() player_nail2   =[$nailatt2, player_nail1  ]
 {
@@ -219,24 +220,9 @@ void() player_nail2   =[$nailatt2, player_nail1  ]
 	if (self.weaponframe == 9)
 		self.weaponframe = 1;
 	SuperDamageSound();
-	W_FireSpikes (-2);
-	self.attack_finished = time + 0.1;
+	W_FireSpikes (-4);
+	self.attack_finished = time + 0.4;
 };
-
-//============================================================================
-// Super Nailgun fire
-void() player_snail1	=[$nailatt1, player_snail1  ]
-{
-	self.effects = self.effects | EF_MUZZLEFLASH;
-	if(!self.button0)
-		{player_run ();return;}
-	self.weaponframe = self.weaponframe + 1;
-	        if (self.weaponframe == 9)
-                self.weaponframe = 1;
-        SuperDamageSound();
-        W_FireSuperSpikes ();
-        self.attack_finished = time + 1;
-}
 
 //============================================================================
 
