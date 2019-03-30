@@ -7,3 +7,5 @@ fteqcc.log
 *.mdl
 *.dae
 *.bak
+progs.dat
+progs.lno
