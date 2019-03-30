@@ -62,14 +62,14 @@ ai_walk(3);};
 void()	knight_walk2	=[	$walk2,		knight_walk3	] {ai_walk(2);};
 void()	knight_walk3	=[	$walk3,		knight_walk4	] {ai_walk(3);};
 void()	knight_walk4	=[	$walk4,		knight_walk5	] {ai_walk(4);};
-void()	knight_walk5	=[	$walk5,		knight_walk6	] {ai_walk(3);};
+void()	knight_walk5	=[	$walk5,		knight_walk6	] {sound (self, CHAN_BODY, "knight/krattle2.wav", 0.5,  ATTN_IDLE);ai_walk(3);};
 void()	knight_walk6	=[	$walk6,		knight_walk7	] {ai_walk(3);};
 void()	knight_walk7	=[	$walk7,		knight_walk8	] {ai_walk(3);};
 void()	knight_walk8	=[	$walk8,		knight_walk9	] {ai_walk(4);};
 void()	knight_walk9	=[	$walk9,		knight_walk10	] {ai_walk(3);};
 void()	knight_walk10	=[	$walk10,	knight_walk11	] {ai_walk(3);};
 void()	knight_walk11	=[	$walk11,	knight_walk12	] {ai_walk(2);};
-void()	knight_walk12	=[	$walk12,	knight_walk13	] {ai_walk(3);};
+void()	knight_walk12	=[	$walk12,	knight_walk13	] {sound (self, CHAN_BODY, "knight/krattle3.wav", 0.5,  ATTN_IDLE);ai_walk(3);};
 void()	knight_walk13	=[	$walk13,	knight_walk14	] {ai_walk(4);};
 void()	knight_walk14	=[	$walk14,	knight_walk1	] {ai_walk(3);};
 
@@ -78,11 +78,29 @@ void()	knight_run1	=[	$runb1,		knight_run2	] {
 if (random() < 0.2)
 	sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
 ai_run(16);};
-void()	knight_run2	=[	$runb2,		knight_run3	] {ai_run(20);};
+void()	knight_run2	=[	$runb2,		knight_run3	] {
+	if (random() < 0.5)	
+	{
+		sound (self, CHAN_BODY, "knight/krattle2.wav", 1,  ATTN_IDLE);
+	}
+	else
+	{
+		sound (self, CHAN_BODY, "knight/krattle3.wav", 1,  ATTN_IDLE);
+	};
+	ai_run(20);};
 void()	knight_run3	=[	$runb3,		knight_run4	] {ai_run(13);};
 void()	knight_run4	=[	$runb4,		knight_run5	] {ai_run(7);};
 void()	knight_run5	=[	$runb5,		knight_run6	] {ai_run(16);};
-void()	knight_run6	=[	$runb6,		knight_run7	] {ai_run(20);};
+void()	knight_run6	=[	$runb6,		knight_run7	] {
+	if (random() < 0.5)	
+	{
+		sound (self, CHAN_BODY, "knight/krattle2.wav", 1,  ATTN_IDLE);
+	}
+	else
+	{
+		sound (self, CHAN_BODY, "knight/krattle3.wav", 1,  ATTN_IDLE);
+	}
+	ai_run(20);};
 void()	knight_run7	=[	$runb7,		knight_run8	] {ai_run(14);};
 void()	knight_run8	=[	$runb8,		knight_run1	] {ai_run(6);};
 
@@ -98,11 +116,29 @@ ai_charge(20);
 void()	knight_runatk2	=[	$runattack2,	knight_runatk3	] {ai_charge_side();};
 void()	knight_runatk3	=[	$runattack3,	knight_runatk4	] {ai_charge_side();};
 void()	knight_runatk4	=[	$runattack4,	knight_runatk5	] {ai_charge_side();};
-void()	knight_runatk5	=[	$runattack5,	knight_runatk6	] {ai_melee_side();};
+void()	knight_runatk5	=[	$runattack5,	knight_runatk6	] {
+	if (random() < 0.5)	
+	{
+		sound (self, CHAN_BODY, "knight/krattle2.wav", 1,  ATTN_IDLE);
+	}
+	else
+	{
+		sound (self, CHAN_BODY, "knight/krattle3.wav", 1,  ATTN_IDLE);
+	};	
+	ai_melee_side();};
 void()	knight_runatk6	=[	$runattack6,	knight_runatk7	] {ai_melee_side();};
 void()	knight_runatk7	=[	$runattack7,	knight_runatk8	] {ai_melee_side();};
 void()	knight_runatk8	=[	$runattack8,	knight_runatk9	] {ai_melee_side();};
-void()	knight_runatk9	=[	$runattack9,	knight_runatk10	] {ai_melee_side();};
+void()	knight_runatk9	=[	$runattack9,	knight_runatk10	] {
+	if (random() < 0.5)	
+	{
+		sound (self, CHAN_BODY, "knight/krattle2.wav", 1,  ATTN_IDLE);
+	}
+	else
+	{
+		sound (self, CHAN_BODY, "knight/krattle3.wav", 1,  ATTN_IDLE);
+	};
+	ai_melee_side();};
 void()	knight_runatk10	=[	$runattack10,	knight_runatk11	] {ai_charge_side();};
 void()	knight_runatk11	=[	$runattack11,	knight_run1	] {ai_charge(10);};
 
@@ -201,7 +237,7 @@ void()	knight_die3	=[	$death3,	knight_die4	] {self.solid = SOLID_NOT;};
 void()	knight_die4	=[	$death4,	knight_die5	] {};
 void()	knight_die5	=[	$death5,	knight_die6	] {};
 void()	knight_die6	=[	$death6,	knight_die7	] {};
-void()	knight_die7	=[	$death7,	knight_die8	] {};
+void()	knight_die7	=[	$death7,	knight_die8	] {sound (self, CHAN_AUTO, "knight/krattle1.wav", 1,  ATTN_IDLE);};
 void()	knight_die8	=[	$death8,	knight_die9	] {};
 void()	knight_die9	=[	$death9,	knight_die10] {};
 void()	knight_die10=[	$death10,	knight_die10] {};
@@ -209,12 +245,12 @@ void()	knight_die10=[	$death10,	knight_die10] {};
 
 void()	knight_dieb1	=[	$deathb1,	knight_dieb2	] {};
 void()	knight_dieb2	=[	$deathb2,	knight_dieb3	] {};
-void()	knight_dieb3	=[	$deathb3,	knight_dieb4	] {self.solid = SOLID_NOT;};
+void()	knight_dieb3	=[	$deathb3,	knight_dieb4	] {self.solid = SOLID_NOT;sound (self, CHAN_AUTO, "knight/krattle2.wav", 1,  ATTN_IDLE);};
 void()	knight_dieb4	=[	$deathb4,	knight_dieb5	] {};
 void()	knight_dieb5	=[	$deathb5,	knight_dieb6	] {};
 void()	knight_dieb6	=[	$deathb6,	knight_dieb7	] {};
 void()	knight_dieb7	=[	$deathb7,	knight_dieb8	] {};
-void()	knight_dieb8	=[	$deathb8,	knight_dieb9	] {};
+void()	knight_dieb8	=[	$deathb8,	knight_dieb9	] {sound (self, CHAN_AUTO, "knight/krattle1.wav", 1,  ATTN_IDLE);};
 void()	knight_dieb9	=[	$deathb9,	knight_dieb10] {};
 void()	knight_dieb10 = [	$deathb10,	knight_dieb11] {};
 void()	knight_dieb11 = [	$deathb11,	knight_dieb11] {};
@@ -258,6 +294,9 @@ void() monster_knight =
 	precache_sound ("knight/kdeath.wav");
 	precache_sound ("knight/khurt.wav");
 	precache_sound ("knight/ksight.wav");
+	precache_sound ("knight/krattle1.wav");
+	precache_sound ("knight/krattle2.wav");
+	precache_sound ("knight/krattle3.wav");
 	precache_sound ("knight/sword1.wav");
 	precache_sound ("knight/sword2.wav");
 	precache_sound ("knight/idle.wav");

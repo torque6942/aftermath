@@ -4,7 +4,7 @@ void (entity targ, entity inflictor, entity attacker, float damage) T_Damage;
 void () player_run;
 void(entity bomb, entity attacker, float rad, entity ignore) T_RadiusDamage;
 void(vector org, vector vel, float damage) SpawnBlood;
-void(vector org, vector vel, float damage) SpawnSparks;
+void(vector org, vector vel, float damage) SpawnSparks; // Added sparks to armored enemies
 void() SuperDamageSound;
 void() W_Attack2;
 
