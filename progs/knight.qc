@@ -269,7 +269,7 @@ void() monster_knight =
 	setmodel (self, "progs/knight.mdl");
 
 	setsize (self, '-16 -16 -24', '16 16 40');
-	self.health = 75;
+	self.health = 775;
 
 	self.th_stand = knight_stand1;
 	self.th_walk = knight_walk1;
