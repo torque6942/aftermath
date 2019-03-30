@@ -3,11 +3,8 @@
 void (entity targ, entity inflictor, entity attacker, float damage) T_Damage;
 void () player_run;
 void(entity bomb, entity attacker, float rad, entity ignore) T_RadiusDamage;
-void(vector org, vector vel, float damage) SpawnBlood;
-<<<<<<< HEAD
+void(vector org, vector vel, float color, float damage) SpawnBlood;
 void(vector org, vector vel, float damage) SpawnSparks; // Added sparks to armored enemies
-=======
->>>>>>> 26fcda99718c4a70d9cc4cafead1bfa4c6a06d2c
 void() SuperDamageSound;
 void() W_Attack2;
 
@@ -60,7 +57,7 @@ void() W_FireAxe =
 	if (trace_ent.takedamage)
 	{
 		trace_ent.axhitme = 1;
-		SpawnBlood (org, '0 0 0', 20);
+		SpawnBlood (org, '0 0 0', 73, 20);
 		T_Damage (trace_ent, self, self, 20);
 	}
 	else
@@ -127,9 +124,18 @@ void(vector org, vector vel) SpawnMeatSpray =
 SpawnBlood
 ================
 */
-void(vector org, vector vel, float damage) SpawnBlood =
+void(vector org, vector vel, float color, float damage) SpawnBlood =
 {
-	particle (org, vel*0.1, 73, damage*2);
+	particle (org, vel*0.1, color, damage*2);
+};
+/*
+================
+SpawnSparks
+================
+*/
+void(vector org, vector vel, float damage) SpawnSparks =
+{
+	particle (org, vel*0.1, 255, damage);
 };
 
 /*
@@ -142,7 +148,7 @@ void(float damage) spawn_touchblood =
 	local vector	vel;
 
 	vel = wall_velocity () * 0.2;
-	SpawnBlood (self.origin + vel*0.01, vel, damage);
+	SpawnBlood (self.origin + vel*0.01, vel, 73, damage);
 };
 
 
@@ -222,7 +228,15 @@ void(float damage, vector dir) TraceAttack =
 
 	if (trace_ent.takedamage)
 	{
-		SpawnBlood (org, vel*0.2, damage);
+		if (trace_ent.classname == "monster_knight" || trace_ent.classname == "monster_hknight")
+		{
+			SpawnSparks (org, vel*0.1, damage);
+			SpawnBlood (org, vel*0.2, 73, damage/2);
+		}
+		else 
+		{
+			SpawnBlood (org, vel*0.2, 73, damage);
+		}
 		AddMultiDamage (trace_ent, damage);
 	}
 	else
