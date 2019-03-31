@@ -280,7 +280,8 @@ void() knight_die =
 };
 
 
-/*QUAKED monster_knight (1 0 0) (-16 -16 -24) (16 16 40) Ambush
+/*
+	QUAKED monster_knight (1 0 0) (-16 -16 -24) (16 16 40) Ambush
 */
 void() monster_knight =
 {
@@ -294,13 +295,15 @@ void() monster_knight =
 	precache_sound ("knight/kdeath.wav");
 	precache_sound ("knight/khurt.wav");
 	precache_sound ("knight/ksight.wav");
-	precache_sound ("knight/krattle1.wav");
-	precache_sound ("knight/krattle2.wav");
-	precache_sound ("knight/krattle3.wav");
 	precache_sound ("knight/sword1.wav");
 	precache_sound ("knight/sword2.wav");
 	precache_sound ("knight/idle.wav");
-	precache_sound ("knight/khit.wav");	// impact sound
+	// Armor rattle sounds
+	precache_sound ("knight/krattle1.wav");
+	precache_sound ("knight/krattle2.wav");
+	precache_sound ("knight/krattle3.wav");
+	// Impact sound from projectile non-explosive weapons
+	precache_sound ("knight/khit.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
