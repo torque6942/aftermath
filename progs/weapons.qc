@@ -4,7 +4,6 @@ void (entity targ, entity inflictor, entity attacker, float damage) T_Damage;
 void () player_run;
 void(entity bomb, entity attacker, float rad, entity ignore) T_RadiusDamage;
 void(vector org, vector vel, float color, float damage) SpawnBlood;
-void(vector org, vector vel, float damage) SpawnSparks; // Added sparks to armored enemies
 void() SuperDamageSound;
 void() W_Attack2;
 
@@ -14,7 +13,6 @@ void() W_Precache =
 	precache_sound ("weapons/r_exp3.wav");	// new rocket explosion
 	precache_sound ("weapons/rocket1i.wav");	// spike gun
 	precache_sound ("weapons/sgun1.wav");
-//	precache_sound ("weapons/guncock.wav");	// player shotgun
 	precache_sound ("weapons/sgun_fire1.wav"); // New shotgun sound
 	precache_sound ("weapons/sgun_fire2.wav"); // Altfire shotgun sound
 	precache_sound ("weapons/sgun_pump.wav"); // Shotgun draw sound
@@ -128,15 +126,6 @@ void(vector org, vector vel, float color, float damage) SpawnBlood =
 {
 	particle (org, vel*0.1, color, damage*2);
 };
-/*
-================
-SpawnSparks
-================
-*/
-void(vector org, vector vel, float damage) SpawnSparks =
-{
-	particle (org, vel*0.1, 255, damage);
-};
 
 /*
 ================
@@ -230,8 +219,8 @@ void(float damage, vector dir) TraceAttack =
 	{
 		if (trace_ent.classname == "monster_knight" || trace_ent.classname == "monster_hknight")
 		{
-			SpawnSparks (org, vel*0.1, damage);
-			SpawnBlood (org, vel*0.2, 73, damage/2);
+			SpawnBlood (org, vel*0.1, 235, damage*0.1);
+			SpawnBlood (org, vel*0.2, 73, damage*0.5);
 		}
 		else 
 		{
@@ -247,11 +236,6 @@ void(float damage, vector dir) TraceAttack =
 		WriteCoord (MSG_BROADCAST, org_y);
 		WriteCoord (MSG_BROADCAST, org_z);
 	}
-
-	/*
-	if(random() < 0.2)
-        	ThrowBloodSplat(dir, trace_endpos, trace_ent);
-	*/
 };
 
 /*
