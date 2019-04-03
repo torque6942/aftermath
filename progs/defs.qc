@@ -310,6 +310,7 @@ float	IT_INVISIBILITY			= 524288;
 float	IT_INVULNERABILITY		= 1048576;
 float	IT_SUIT					= 2097152;
 float	IT_QUAD					= 4194304;
+float	IT_SGUN_UPG				= 20;
 
 // point content values
 

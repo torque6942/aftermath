@@ -285,7 +285,14 @@ void() W_FireShotgun =
 
 	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 	dir = aim (self, 100000);
-	FireBullets (8, dir, '0.04 0.04 0');
+	if (self.items == self.items | IT_SGUN_UPG)
+	{
+		FireBullets (8, dir, '0.03 0.03 0');
+	}
+	else
+	{
+		FireBullets (8, dir, '0.06 0.06 0');
+	}
 };
 
 void() W_AltFireShotgun =
@@ -297,7 +304,14 @@ void() W_AltFireShotgun =
 	self.punchangle_x = self.punchangle_x - 4;
 
 	dir = aim (self, 100000);
-	FireBullets (8, dir, '0.07 0.07 0');
+	if (self.items == self.items | IT_SGUN_UPG)
+	{
+		FireBullets (8, dir, '0.05 0.05 0');
+	}
+	else
+	{
+		FireBullets (8, dir, '0.09 0.09 0');
+	}
 }
 
 /*
@@ -813,7 +827,14 @@ void() W_SetCurrentAmmo =
 	else if (self.weapon == IT_SHOTGUN)
 	{
 		self.currentammo = self.ammo_shells;
-		self.weaponmodel = "progs/v_shot.mdl";
+		if (self.items == self.items | IT_SGUN_UPG)
+		{
+			self.weaponmodel = "progs/v_shot2.mdl";
+		}
+		else
+		{	
+			self.weaponmodel = "progs/v_shot.mdl";
+		}
 		self.weaponframe = 0;
 		self.items = self.items | IT_SHELLS;
 	}

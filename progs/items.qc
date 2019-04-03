@@ -1132,6 +1132,16 @@ local float		best;
 		other.super_time = 1;
 		other.super_damage_finished = time + 30;
 	}
+	
+	if (self.classname == "item_sgun_upg")
+	{
+		if (other.weapon == IT_SHOTGUN)
+		{
+			other.weaponmodel = "progs/v_sgun_extended.mdl"; // Only for testing
+		}
+		sprint (other, "You got an extended barrel for your shotgun!\n");
+	}
+
 
 	activator = other;
 	SUB_UseTargets();				// fire all targets / killtargets
@@ -1216,7 +1226,23 @@ void() item_artifact_super_damage =
 	StartItem ();
 };
 
+/*
+ *
+ * Weapon upgrades
+ *
+ */
 
+void() item_sgun_upg =
+{
+	self.touch = powerup_touch;
+
+	precache_model ("progs/v_shot.mdl");
+	self.netname = "Shotgun Barrel Upgrade";
+	self.items = IT_SGUN_UPG;
+	self.noise = "weapons/lock4.wav";
+	setsize (self, '-16 -16 -24', '16 16 32');
+	StartItem ();
+};
 
 /*
 ===============================================================================
@@ -1255,7 +1281,7 @@ void() BackpackTouch =
 	best = W_BestWeapon();
 	self = stemp;
 
-// change weapons
+// change weapons:
 	other.ammo_shells = other.ammo_shells + self.ammo_shells;
 	other.ammo_nails = other.ammo_nails + self.ammo_nails;
 	other.ammo_rockets = other.ammo_rockets + self.ammo_rockets;
@@ -1276,7 +1302,7 @@ void() BackpackTouch =
 		acount = 1;
 		s = ftos(self.ammo_shells);
 		sprint (other, s);
-		sprint (other, " shells");
+		sprint (other, " shells\n");
 	}
 	if (self.ammo_nails)
 	{
@@ -1285,7 +1311,7 @@ void() BackpackTouch =
 		acount = 1;
 		s = ftos(self.ammo_nails);
 		sprint (other, s);
-		sprint (other, " nails");
+		sprint (other, " nails\n");
 	}
 	if (self.ammo_rockets)
 	{
@@ -1293,23 +1319,11 @@ void() BackpackTouch =
 			sprint(other, ", ");
 		acount = 1;
 		s = ftos(self.ammo_rockets);
-		sprint (other, s);
-		sprint (other, " rockets");
+		sprint (other, "\n");
+		// backpack touch sound
+		sound (other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
+		stuffcmd (other, "bf\n");
 	}
-	if (self.ammo_cells)
-	{
-		if (acount)
-			sprint(other, ", ");
-		acount = 1;
-		s = ftos(self.ammo_cells);
-		sprint (other, s);
-		sprint (other, " cells");
-	}
-
-	sprint (other, "\n");
-// backpack touch sound
-	sound (other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
-	stuffcmd (other, "bf\n");
 
 // remove the backpack, change self to the player
 	remove(self);
@@ -1353,7 +1367,7 @@ void() BackpackTouch =
                 sprint (other, s);
                 sprint (other, " health\n");
 	}
-};
+}
 
 /*
 ===============
