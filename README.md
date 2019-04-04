@@ -4,6 +4,11 @@ A little Quake project
 This is just a simple Quake project I've started. I have some ideas of what I want this to become but nothing big yet.
 My main goal is to increase the feeling of damage dealing while slowing the pace and still keeping it fun.
 
+0.04
+- Added weapon upgrade for shotgun
+- Added new model for upgraded shotgun
+- Added sparks, impact sounds and footsteps to knight and hell knight
+
 0.03
 - Added secondary fire trigger
 - Added 3 burst secondary fire to shotgun (inspired by Doom 2016)
