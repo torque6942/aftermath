@@ -1133,11 +1133,11 @@ local float		best;
 		other.super_damage_finished = time + 30;
 	}
 	
-	if (self.classname == "item_sgun_upg")
+	if (self.classname == "item_shot_upg")
 	{
 		if (other.weapon == IT_SHOTGUN)
 		{
-			other.weaponmodel = "progs/v_sgun_extended.mdl"; // Only for testing
+			other.weaponmodel = "progs/v_shot_e.mdl";
 		}
 		sprint (other, "You got an extended barrel for your shotgun!\n");
 	}
@@ -1232,13 +1232,15 @@ void() item_artifact_super_damage =
  *
  */
 
-void() item_sgun_upg =
+void() item_shot_upg =
 {
 	self.touch = powerup_touch;
 
-	precache_model ("progs/v_shot.mdl");
+	precache_model ("progs/backpack.mdl");
+	setmodel (self, "progs/backpack.mdl");	
+	self.skin = 1;
 	self.netname = "Shotgun Barrel Upgrade";
-	self.items = IT_SGUN_UPG;
+	self.items = IT_SHOT_UPG;
 	self.noise = "weapons/lock4.wav";
 	setsize (self, '-16 -16 -24', '16 16 32');
 	StartItem ();
@@ -1281,7 +1283,7 @@ void() BackpackTouch =
 	best = W_BestWeapon();
 	self = stemp;
 
-// change weapons:
+// change weapons
 	other.ammo_shells = other.ammo_shells + self.ammo_shells;
 	other.ammo_nails = other.ammo_nails + self.ammo_nails;
 	other.ammo_rockets = other.ammo_rockets + self.ammo_rockets;
@@ -1299,15 +1301,17 @@ void() BackpackTouch =
 	{
 		if (acount)
 			sprint(other, ", ");
+
 		acount = 1;
 		s = ftos(self.ammo_shells);
 		sprint (other, s);
-		sprint (other, " shells\n");
+		sprint (other, " shells");
 	}
 	if (self.ammo_nails)
 	{
 		if (acount)
 			sprint(other, ", ");
+
 		acount = 1;
 		s = ftos(self.ammo_nails);
 		sprint (other, s);
@@ -1317,13 +1321,27 @@ void() BackpackTouch =
 	{
 		if (acount)
 			sprint(other, ", ");
+
 		acount = 1;
 		s = ftos(self.ammo_rockets);
-		sprint (other, "\n");
-		// backpack touch sound
-		sound (other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
-		stuffcmd (other, "bf\n");
+		sprint (other, s);
+		sprint (other, " rockets");
 	}
+	if (self.ammo_cells)
+	{
+		if (acount)
+			sprint(other, ", ");
+
+		acount = 1;
+		s = ftos(self.ammo_cells);
+		sprint (other, s);
+		sprint (other, " cells");
+	}
+	
+	sprint (other, "\n");
+// backpack touch sound
+	sound (other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
+	stuffcmd (other, "bf\n");
 
 // remove the backpack, change self to the player
 	remove(self);
@@ -1342,30 +1360,27 @@ void() BackpackTouch =
 	{
 		heal = heal * 3;
 		self.health = self.health + heal;	// Add more if low on hp
-
-                s = ftos(heal);
-                sprint (other, "You got ");
-                sprint (other, s);
-                sprint (other, " health\n");
+		s = ftos(heal);
+		sprint (other, "You got ");
+		sprint (other, s);
+		sprint (other, " health\n");
 	}
 	else if (self.health < 70) 
 	{
-                self.health = self.health + heal;
-
-                s = ftos(heal);
+		self.health = self.health + heal;
+		s = ftos(heal);
 		sprint (other, "You got ");
-                sprint (other, s);
-                sprint (other, " health\n");
+		sprint (other, s);
+		sprint (other, " health\n");
 	}
 	else if (self.health >= 70 && self.health < 100)	// Don't add to more than 100 hp
 	{
 		heal = 1;
 		self.health = self.health + heal;
-
-                s = ftos(heal);
-                sprint (other, "You got ");
-                sprint (other, s);
-                sprint (other, " health\n");
+		s = ftos(heal);
+		sprint (other, "You got ");
+		sprint (other, s);
+		sprint (other, " health\n");
 	}
 }
 
